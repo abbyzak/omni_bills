@@ -107,9 +107,22 @@ client = TelegramClient('user', api_id, api_hash).start()
 @client.on(events.NewMessage())
 async def handler(event):
     sender = await event.get_input_sender()
-    for i in group_strings(main(),10):
-        await client.send_message(sender, i)
-        break
+    message = event.message.message.lower()  # Convert the message to lowercase for easier comparison
 
+    if '1h' in message:
+        for i in group_strings(main(), 10):
+            await client.send_message(sender, i)
+            break
+    elif '4h' in message:
+        for i in group_strings(main('4h'), 10):
+            await client.send_message(sender, i)
+            break
+    elif '24h' in message:
+        for i in group_strings(main('24h'), 10):
+            await client.send_message(sender, i)
+            break
+    else:
+        predictions = []
+    
 client.run_until_disconnected()
 
